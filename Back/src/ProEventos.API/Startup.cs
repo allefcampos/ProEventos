@@ -79,9 +79,9 @@ namespace ProEventos.API
             // app.UseAuthentication();
             app.UseAuthorization();
 
-            // app.UseCors(x => x.AllowAnyHeader()
-            //                   .AllowAnyMethod()
-            //                   .AllowAnyOrigin());
+             app.UseCors(x => x.AllowAnyHeader()
+                               .AllowAnyMethod()
+                               .AllowAnyOrigin());
 
             // app.UseStaticFiles(new StaticFileOptions()
             // {
