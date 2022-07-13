@@ -1,11 +1,60 @@
 <div class="container mt-3">
-  <p>
-    eventos works!
-  </p>
+  <h2>Eventos</h2>
+  <hr>
 
-  <div *ngFor="let evento of eventos">
+  <div class="form-inline">
+    <div class="form-group mb-2">
+      <input type="text" class="form-control mr-2" placeholder="Buscar" [(ngModel)]="filtroLista">
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>
+          <button class="btn btn-outline-light btn-sm" (click)="isVisible = !isVisible">
+            {{ !isVisible ? 'Exibir' : 'Esconder' }}
+          </button>
+        </th>
+        <th>#</th>
+        <th>Tema</th>
+        <th>Local</th>
+        <th>Data</th>
+        <th>Qtd Pessoas</th>
+        <th>Lote</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="eventos && eventos.length">
+      <!-- {{eventos | json}} -->
+      <tr *ngFor="let evento of eventosFiltrados">
+        <td>
+          <img [collapse]="!isVisible" [isAnimated]="true" [style.width.px]="200" src="/assets/{{ evento.imagemURL }}" alt="Imagens Eventos">
+        </td>
+        <td>{{ evento.eventoId }}</td>
+        <td>{{ evento.tema }}</td>
+        <td>{{ evento.local }}</td>
+        <td>{{ evento.dataEvento }}</td>
+        <td>{{ evento.qtdPessoas }}</td>
+        <td>{{ evento.lote }}</td>
+        <td>
+          <button class="btn btn-outline-primary btn-sm mr-2">Editar</button>
+          <button class="btn btn-outline-danger btn-sm mr-2">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot class="text-center" *ngIf="!eventos.length">
+      <tr>
+        <td colspan="8">
+          <h4>Nenhum evento encontrado!</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- <div *ngFor="let evento of eventos">
     <p>TEMA: {{ evento.tema }}</p>
     <p>LOCAL: {{ evento.local }}</p>
     <hr>
-  </div>
+  </div> -->
 </div>
