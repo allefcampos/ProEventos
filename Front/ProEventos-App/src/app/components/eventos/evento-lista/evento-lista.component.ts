@@ -45,11 +45,11 @@ export class EventoListaComponent implements OnInit {
   }
 
   constructor(
-    private _eventoService: EventoService,
+    private eventoService: EventoService,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private route: Router
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class EventoListaComponent implements OnInit {
   private getEventos() {
     this.spinner.show();
 
-    this._eventoService
+    this.eventoService
       .getEventos()
       .subscribe(
         (eventos: Evento[]) => {
@@ -81,36 +81,36 @@ export class EventoListaComponent implements OnInit {
   }
 
   detalhe(id: number) {
-    this.route.navigate([`eventos/detalhe/${id}`])
+    this.router.navigate([`eventos/detalhe/${id}`])
   }
 
   confirm(): void {
     this.modalRef.hide();
-    // this.spinner.show();
+    this.spinner.show();
 
     this.toastr.success('O Evento foi deletado com Sucesso.', 'Deletado!');
 
-    // this.eventoService
-    //   .deleteEvento(this.eventoId)
-    //   .subscribe(
-    //     (result: any) => {
-    //       if (result.message === 'Deletado') {
-    //         this.toastr.success(
-    //           'O Evento foi deletado com Sucesso.',
-    //           'Deletado!'
-    //         );
-    //         this.carregarEventos();
-    //       }
-    //     },
-    //     (error: any) => {
-    //       console.error(error);
-    //       this.toastr.error(
-    //         `Erro ao tentar deletar o evento ${this.eventoId}`,
-    //         'Erro'
-    //       );
-    //     }
-    //   )
-    //   .add(() => this.spinner.hide());
+    this.eventoService
+      .deleteEvento(this.eventoId)
+      .subscribe(
+        (result: any) => {
+          if (result.message === 'Deletado') {
+            this.toastr.success(
+              'O Evento foi deletado com Sucesso.',
+              'Deletado!'
+            );
+            this.getEventos();
+          }
+        },
+        (error: any) => {
+          console.error(error);
+          this.toastr.error(
+            `Erro ao tentar deletar o evento ${this.eventoId}`,
+            'Erro'
+          );
+        }
+      )
+      .add(() => this.spinner.hide());
   }
 
   decline(): void {
